@@ -3,15 +3,16 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import {Button, StyleSheet, View} from 'react-native';
 import * as Notification from 'expo-notifications';
+import { EXPO_CLIENT_ID, IOS_CLIENT_ID, WEB_CLIENT_ID, EXPO_PUSH_TOKEN } from './Constants'
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
 	const [request, response, promptAsync] = Google.useAuthRequest({
-		expoClientId: '737634999521-t5ugefdpqa5m6r2g698iel229895q76o.apps.googleusercontent.com',
-		iosClientId: '737634999521-t5ugefdpqa5m6r2g698iel229895q76o.apps.googleusercontent.com',
-		webClientId: '737634999521-t5ugefdpqa5m6r2g698iel229895q76o.apps.googleusercontent.com',
-		scopes: ['profile', 'email', 'youtube', 'youtube.upload'],
+		expoClientId: EXPO_CLIENT_ID,
+		iosClientId: IOS_CLIENT_ID,
+		webClientId: WEB_CLIENT_ID,
+		scopes: ['profile', 'email'],
 		responseType: 'token',
 		extraParams: {
 			prompt: 'consent',
@@ -28,7 +29,9 @@ export default function App() {
 		// const expoPushToken = await Notification.getExpoPushTokenAsync()
 
 		// Simulator is not supported
-		const expoPushToken = 'ExponentPushToken[BrFf4kBEsRZTzDYsU3QviW]'
+		const expoPushToken = EXPO_PUSH_TOKEN
+
+		console.log('Log=', access_token);
 
 		const response = await fetch('http://localhost:8000/auth/oauth', {
 			method: 'post',
